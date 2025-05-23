@@ -32,6 +32,10 @@ in
       type = types.bool;
       default = false;
     };
+    java = mkOption {
+      type = types.bool;
+      default = false;
+    };
     bpmn = mkOption {
       type = types.bool;
       default = false;
@@ -76,6 +80,14 @@ in
         ]
         ++ optionals (!cfg.unfree) [
           vscode-marketplace.ms-pyright.pyright # cannot be used with pylance
+        ]
+        ++ optionals (cfg.java) [
+          vscode-marketplace.redhat.java
+          vscode-marketplace.vscjava.vscode-java-debug
+          vscode-marketplace.vscjava.vscode-java-test
+          vscode-marketplace.vscjava.vscode-maven
+          vscode-marketplace.vscjava.vscode-java-dependency
+          vscode-marketplace.visualstudioexptteam.vscodeintellicode
         ]
         ++ optionals cfg.python or cfg.robot [
           pkgs.vscode-extensions.ms-python.python
