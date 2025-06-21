@@ -32,56 +32,28 @@ in
       type = types.bool;
       default = false;
     };
-    java = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    bpmn = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    python = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    robot = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    unfree = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    vim = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    copilot = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    continue = mkOption {
-      type = types.bool;
-      default = false;
+    features = mkOption {
+      type = types.listOf types.str;
+      default = [];
     };
   };
   config.packages = mkIf cfg.enable [
     (unstable.vscode-with-extensions.override {
-      vscode = if cfg.unfree then unstable.vscode else unstable.vscodium;
+      vscode = if lib.elem "unfree" cfg.features then unstable.vscode else unstable.vscodium;
       vscodeExtensions =
         [
           unstable.vscode-extensions.ms-vscode.makefile-tools
           vscode-marketplace.bbenoist.nix
           vscode-marketplace.tamasfe.even-better-toml
         ]
-        ++ optionals cfg.unfree [
+        ++ optionals (lib.elem "unfree" cfg.features) [
           (vscode-marketplace.ms-vscode-remote.remote-ssh.override { meta.licenses = [ ]; })
-          (unstable.vscode-extensions.ms-python.vscode-pylance) # .override { meta.licenses = [ ]; })
+          (unstable.vscode-extensions.ms-python.vscode-pylance)
         ]
-        ++ optionals (!cfg.unfree) [
-          vscode-marketplace.ms-pyright.pyright # cannot be used with pylance
+        ++ optionals (!lib.elem "unfree" cfg.features) [
+          vscode-marketplace.ms-pyright.pyright
         ]
-        ++ optionals (cfg.java) [
+        ++ optionals (lib.elem "java" cfg.features) [
           vscode-marketplace.redhat.java
           vscode-marketplace.vscjava.vscode-java-debug
           vscode-marketplace.vscjava.vscode-java-test
@@ -89,7 +61,7 @@ in
           vscode-marketplace.vscjava.vscode-java-dependency
           vscode-marketplace.visualstudioexptteam.vscodeintellicode
         ]
-        ++ optionals cfg.python or cfg.robot [
+        ++ optionals (lib.elem "python" cfg.features || lib.elem "robot" cfg.features) [
           pkgs.vscode-extensions.ms-python.python
           pkgs.vscode-extensions.ms-python.debugpy
           (vscode-marketplace.charliermarsh.ruff.overrideAttrs (old: {
@@ -99,20 +71,28 @@ in
             '';
           }))
         ]
-        ++ optionals cfg.robot [
+        ++ optionals (lib.elem "jupyter" cfg.features) [
+          vscode-marketplace.ms-toolsai.jupyter
+          vscode-marketplace.ms-toolsai.jupyter-keymap
+          vscode-marketplace.ms-toolsai.jupyter-renderers
+          vscode-marketplace.ms-toolsai.vscode-jupyter-cell-tags
+          vscode-marketplace.ms-toolsai.vscode-jupyter-slideshow
+          vscode-marketplace.ms-toolsai.vscode-jupyter-powertoys
+        ]
+        ++ optionals (lib.elem "robot" cfg.features) [
           vscode-marketplace.d-biehl.robotcode
         ]
-        ++ optionals cfg.bpmn [
+        ++ optionals (lib.elem "bpmn" cfg.features) [
           vscode-marketplace.miragon-gmbh.vs-code-bpmn-modeler
         ]
-        ++ optionals cfg.vim [
+        ++ optionals (lib.elem "vim" cfg.features) [
           vscode-marketplace.vscodevim.vim
         ]
-        ++ optionals cfg.copilot [
+        ++ optionals (lib.elem "copilot" cfg.features) [
           (vscode-marketplace-release.github.copilot.override { meta.licenses = [ ]; })
           (vscode-marketplace-release.github.copilot-chat.override { meta.licenses = [ ]; })
         ]
-        ++ optionals cfg.continue [
+        ++ optionals (lib.elem "continue" cfg.features) [
           vscode-marketplace.continue.continue
         ];
     })
