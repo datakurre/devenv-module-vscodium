@@ -71,6 +71,9 @@ in
             '';
           }))
         ]
+        ++ optionals (!lib.elem "go" cfg.features) [
+          vscode-marketplace.golang.go
+        ]
         ++ optionals (lib.elem "jupyter" cfg.features) [
           vscode-marketplace.ms-toolsai.jupyter
           vscode-marketplace.ms-toolsai.jupyter-keymap
