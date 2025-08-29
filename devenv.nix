@@ -13,6 +13,12 @@ let
       allowUnfree = true;
     };
   };
+  vscode-python = import inputs.vscode-python {
+    system = pkgs.system;
+    config = {
+      allowUnfree = true;
+    };
+  };
   vscode-marketplace =
     (inputs.nix-vscode-extensions.extensions.${pkgs.system}.forVSCodeVersion unstable.vscodium.version)
     .vscode-marketplace;
@@ -62,14 +68,15 @@ in
           vscode-marketplace.visualstudioexptteam.vscodeintellicode
         ]
         ++ optionals (lib.elem "python" cfg.features || lib.elem "robot" cfg.features) [
-          pkgs.vscode-extensions.ms-python.python
-          pkgs.vscode-extensions.ms-python.debugpy
+          vscode-python.vscode-extensions.ms-python.python
+          vscode-python.vscode-extensions.ms-python.debugpy
           (vscode-marketplace.charliermarsh.ruff.overrideAttrs (old: {
             postInstall = ''
               rm -f $out/share/vscode/extensions/charliermarsh.ruff/bundled/libs/bin/ruff
               ln -s ${pkgs.ruff}/bin/ruff $out/share/vscode/extensions/charliermarsh.ruff/bundled/libs/bin/ruff
             '';
           }))
+          pkgs.vscode-extensions.redhat.vscode-yaml
         ]
         ++ optionals (!lib.elem "go" cfg.features) [
           vscode-marketplace.golang.go
