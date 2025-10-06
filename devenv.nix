@@ -93,7 +93,17 @@ in
           vscode-marketplace.d-biehl.robotcode
         ]
         ++ optionals (lib.elem "bpmn" cfg.features) [
-          vscode-marketplace.miragon-gmbh.vs-code-bpmn-modeler
+          (pkgs.vscode-utils.buildVscodeExtension {
+            pname = "miranum-modeler";
+            version = "1.0.0";
+            vscodeExtPublisher = "miragon-gmbh";
+            vscodeExtName = "vs-code-bpmn-modeler";
+            vscodeExtUniqueId = "miragon-gmbh.vs-code-bpmn-modeler";
+            src = ./vs-code-bpmn-modeler-0.6.2.vsix.zip;
+          })
+        ]
+        ++ optionals (!lib.elem "svelte" cfg.features) [
+          vscode-marketplace.svelte.svelte-vscode
         ]
         ++ optionals (lib.elem "vim" cfg.features) [
           vscode-marketplace.vscodevim.vim
