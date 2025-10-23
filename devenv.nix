@@ -104,6 +104,7 @@ in
         ]
         ++ optionals (!lib.elem "svelte" cfg.features) [
           vscode-marketplace.svelte.svelte-vscode
+          vscode-marketplace.upstash.context7-mcp
         ]
         ++ optionals (lib.elem "vim" cfg.features) [
           vscode-marketplace.vscodevim.vim
