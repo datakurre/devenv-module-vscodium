@@ -116,6 +116,9 @@ in
         ++ optionals (lib.elem "gemini-cli" cfg.features) [
           vscode-marketplace.google.gemini-cli-vscode-ide-companion
         ]
+        ++ optionals (lib.elem "context7" cfg.features) [
+          vscode-marketplace.upstash.context7-mcp
+        ]
         ++ optionals (lib.elem "continue" cfg.features) [
           vscode-marketplace.continue.continue
         ];
