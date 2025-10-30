@@ -102,7 +102,7 @@ in
             src = ./vs-code-bpmn-modeler-0.6.2.vsix.zip;
           })
         ]
-        ++ optionals (!lib.elem "svelte" cfg.features) [
+        ++ optionals (lib.elem "svelte" cfg.features) [
           vscode-marketplace.svelte.svelte-vscode
           vscode-marketplace.upstash.context7-mcp
         ]
