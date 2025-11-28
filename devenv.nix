@@ -111,6 +111,7 @@ in
         ]
         ++ optionals (lib.elem "copilot" cfg.features) [
           (vscode-marketplace-release.github.copilot.override { meta.licenses = [ ]; })
+          (vscode-marketplace-release.github.copilot-chat.override { meta.licenses = [ ]; })
         ]
         ++ optionals (lib.elem "gemini-cli" cfg.features) [
           vscode-marketplace.google.gemini-cli-vscode-ide-companion
