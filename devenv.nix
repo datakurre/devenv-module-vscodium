@@ -90,7 +90,7 @@ in
           vscode-marketplace.ms-toolsai.vscode-jupyter-powertoys
         ]
         ++ optionals (lib.elem "robot" cfg.features) [
-          vscode-marketplace.d-biehl.robotcode
+          vscode-marketplace-release.d-biehl.robotcode
         ]
         ++ optionals (lib.elem "bpmn" cfg.features) [
           (pkgs.vscode-utils.buildVscodeExtension {
