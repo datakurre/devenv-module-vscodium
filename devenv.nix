@@ -106,6 +106,11 @@ in
           vscode-marketplace.svelte.svelte-vscode
           vscode-marketplace.upstash.context7-mcp
         ]
+        ++ optionals (lib.elem "elm" cfg.features) [
+          vscode-marketplace.elmtooling.elm-ls-vscode
+          vscode-marketplace.hbenl.vscode-test-explorer
+          vscode-marketplace.ms-vscode.test-adapter-converter
+        ]
         ++ optionals (lib.elem "vim" cfg.features) [
           vscode-marketplace.vscodevim.vim
         ]
