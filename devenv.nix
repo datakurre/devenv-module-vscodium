@@ -55,6 +55,7 @@ in
         ++ optionals (lib.elem "unfree" cfg.features) [
           # (vscode-marketplace.ms-vscode-remote.remote-ssh.override { meta.licenses = [ ]; })
           (unstable.vscode-extensions.ms-python.vscode-pylance)
+          (vscode-marketplace.ms-vscode-remote.remote-containers.override { meta.licenses = [ ]; })
         ]
         ++ optionals (!lib.elem "unfree" cfg.features) [
           vscode-marketplace.ms-pyright.pyright
