@@ -53,7 +53,7 @@ in
           vscode-marketplace.tamasfe.even-better-toml
         ]
         ++ optionals (lib.elem "unfree" cfg.features) [
-          (vscode-marketplace.ms-vscode-remote.remote-ssh.override { meta.licenses = [ ]; })
+          # (vscode-marketplace.ms-vscode-remote.remote-ssh.override { meta.licenses = [ ]; })
           (unstable.vscode-extensions.ms-python.vscode-pylance)
         ]
         ++ optionals (!lib.elem "unfree" cfg.features) [
@@ -115,8 +115,10 @@ in
           vscode-marketplace.vscodevim.vim
         ]
         ++ optionals (lib.elem "copilot" cfg.features) [
-          (vscode-marketplace-release.github.copilot.override { meta.licenses = [ ]; })
-          (vscode-marketplace-release.github.copilot-chat.override { meta.licenses = [ ]; })
+          unstable.vscode-extensions.github.copilot
+          unstable.vscode-extensions.github.copilot-chat
+          # (vscode-marketplace-release.github.copilot.override { meta.licenses = [ ]; })
+          # (vscode-marketplace-release.github.copilot-chat.override { meta.licenses = [ ]; })
         ]
         ++ optionals (lib.elem "gemini-cli" cfg.features) [
           vscode-marketplace.google.gemini-cli-vscode-ide-companion
