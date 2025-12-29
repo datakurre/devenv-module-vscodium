@@ -90,6 +90,10 @@ in
           vscode-marketplace.ms-toolsai.vscode-jupyter-slideshow
           vscode-marketplace.ms-toolsai.vscode-jupyter-powertoys
         ]
+        ++ optionals (lib.elem "haskell" cfg.features) [
+          vscode-marketplace.haskell.haskell
+          vscode-marketplace.justusadam.language-haskell
+        ]
         ++ optionals (lib.elem "robot" cfg.features) [
           vscode-marketplace-release.d-biehl.robotcode
         ]
